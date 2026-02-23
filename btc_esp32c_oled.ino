@@ -29,24 +29,6 @@ static float openPrices=0;
 
 static uint32_t lastApiMs = 0; // Time of last api call
 
-// Variables
-int currentNetwork = 0;           // Track the currently displayed network
-int totalNetworks = 0;            // Total number of networks found
-unsigned long lastScanTime = 0;   // Last Wi-Fi scan time
-const unsigned long scanInterval = 10000; // Refresh Wi-Fi scan every 10 seconds
-bool firstBoot = true;            // Track whether it's the first boot
-
-// Button Debounce Variables
-bool lastButtonState = HIGH;      // Previous button state
-unsigned long lastDebounceTime = 0;
-const unsigned long debounceDelay = 50;  // Debounce delay in milliseconds
-
-// Scrolling Variables
-int ssidScrollPosition = 0;       // Scroll position for the current SSID
-unsigned long lastScrollTime = 0; // Last time the SSID scrolled
-const int scrollSpeed = 4;        // Speed of scrolling
-const unsigned long scrollDelay = 50; // Delay between scroll updates in ms
-
 void setup() {
   Serial.begin(115200); // Start serial monitor for debugging
   // Initialize I2C and OLED display
@@ -80,7 +62,7 @@ void loop() {
   u8g2.setCursor(15, 22);
   u8g2.print(prices);
   u8g2.sendBuffer();
-  delay(15000);
+  delay(60000);
 }
 
 // Simple HTTP GET – returns body as String or empty on fail
@@ -148,7 +130,7 @@ void displayIntro() {
   WiFi.begin(ssid, password);
 
   u8g2.clearBuffer();
-  u8g2.setFont(u8g2_font_6x10_tr);
+  u8g2.setFont(u8g2_font_3x5im_mr);
   u8g2.setCursor(4, 15);
   u8g2.print("Connecting...");
   u8g2.sendBuffer();
@@ -156,7 +138,7 @@ void displayIntro() {
     delay(250);
   }
   u8g2.clearBuffer();
-  u8g2.setCursor(4, 15);
+  u8g2.setCursor(4, 10);
   u8g2.print("Connected!!!");
   u8g2.setCursor(4, 22);
   u8g2.print(WiFi.localIP());
